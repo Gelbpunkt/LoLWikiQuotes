@@ -4,3 +4,4 @@ __pycache__/
 *$py.class
 # Other
 *.env
+riot_api_key.json

@@ -1,6 +1,6 @@
 {
     "type": "champion",
-    "version": "8.9.1",
+    "version": "11.16.1",
     "data": {
         "1": {
             "id": 1,
@@ -80,7 +80,7 @@
         },
         "20": {
             "id": 20,
-            "name": "Nunu"
+            "name": "Nunu & Willump"
         },
         "21": {
             "id": 21,
@@ -450,6 +450,10 @@
             "id": 145,
             "name": "Kai'Sa"
         },
+        "147": {
+            "id": 147,
+            "name": "Seraphine"
+        },
         "150": {
             "id": 150,
             "name": "Gnar"
@@ -474,6 +478,10 @@
             "id": 164,
             "name": "Camille"
         },
+        "166": {
+            "id": 166,
+            "name": "Akshan"
+        },
         "201": {
             "id": 201,
             "name": "Braum"
@@ -494,6 +502,14 @@
             "id": 223,
             "name": "Tahm Kench"
         },
+        "234": {
+            "id": 234,
+            "name": "Viego"
+        },
+        "235": {
+            "id": 235,
+            "name": "Senna"
+        },
         "236": {
             "id": 236,
             "name": "Lucian"
@@ -510,6 +526,10 @@
             "id": 245,
             "name": "Ekko"
         },
+        "246": {
+            "id": 246,
+            "name": "Qiyana"
+        },
         "254": {
             "id": 254,
             "name": "Vi"
@@ -525,6 +545,14 @@
         "268": {
             "id": 268,
             "name": "Azir"
+        },
+        "350": {
+            "id": 350,
+            "name": "Yuumi"
+        },
+        "360": {
+            "id": 360,
+            "name": "Samira"
         },
         "412": {
             "id": 412,
@@ -561,6 +589,42 @@
         "516": {
             "id": 516,
             "name": "Ornn"
+        },
+        "517": {
+            "id": 517,
+            "name": "Sylas"
+        },
+        "518": {
+            "id": 518,
+            "name": "Neeko"
+        },
+        "523": {
+            "id": 523,
+            "name": "Aphelios"
+        },
+        "526": {
+            "id": 526,
+            "name": "Rell"
+        },
+        "555": {
+            "id": 555,
+            "name": "Pyke"
+        },
+        "777": {
+            "id": 777,
+            "name": "Yone"
+        },
+        "875": {
+            "id": 875,
+            "name": "Sett"
+        },
+        "876": {
+            "id": 876,
+            "name": "Lillia"
+        },
+        "887": {
+            "id": 887,
+            "name": "Gwen"
         }
     }
 }
