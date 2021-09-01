@@ -6,4 +6,6 @@ __pycache__/
 *.env
 riot_api_key.json
 bot.db
+bot.db-wal
+bot.db-shm
 config.json

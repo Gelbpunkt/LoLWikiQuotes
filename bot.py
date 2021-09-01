@@ -1,12 +1,15 @@
-import asyncio
-import collections
 import json
+import logging
 import random
-from typing import Generator, Iterable
 
-import aiosqlite
+import asqlite
 import discord
+import uvloop
 from discord.ext import commands
+
+uvloop.install()
+
+logging.basicConfig(level=logging.INFO)
 
 with open("quotes_list_export.json", "r") as f:
     quotes = json.load(f)
@@ -14,35 +17,25 @@ with open("quotes_list_export.json", "r") as f:
 with open("config.json", "r") as f:
     config = json.load(f)
 
-
-def flatten(l: Iterable) -> Generator:
-    for el in l:
-        if isinstance(el, collections.abc.Iterable) and not isinstance(el, str):
-            for sub in flatten(el):
-                yield sub
-        else:
-            yield el
-
-
 champs = list(quotes.keys())
 
 bot = commands.Bot(command_prefix="!")
 
 
-async def get_champion(db: aiosqlite.Connection, user_id: int) -> str:
-    cursor = await db.execute('SELECT "champion" FROM users WHERE "id"=?;', (user_id,))
-    row = await cursor.fetchone()
+async def get_champion(db: asqlite.Connection, user_id: int) -> str:
+    async with db.cursor() as cursor:
+        await cursor.execute('SELECT "champion" FROM users WHERE "id"=?;', (user_id,))
+        row = await cursor.fetchone()
 
-    if row is None:
-        champion = random.choice(champs)
-        await cursor.close()
-        await db.execute(
-            'INSERT INTO users ("id", "champion") VALUES (?, ?);', (user_id, champion)
-        )
-        await db.commit()
-    else:
-        champion = row[0]
-        await cursor.close()
+        if row is None:
+            champion = random.choice(champs)
+            await cursor.execute(
+                'INSERT INTO users ("id", "champion") VALUES (?, ?);',
+                (user_id, champion),
+            )
+            await db.commit()
+        else:
+            champion = row[0]
 
     return champion
 
@@ -60,17 +53,19 @@ async def iam(ctx: commands.Context, *, champion: str) -> None:
         await ctx.send("Invalid champion.")
         return
 
-    await bot.db.execute(
-        'INSERT INTO users ("id", "champion") VALUES (?, ?) ON CONFLICT("id") DO UPDATE SET "champion"=?;',
-        (ctx.author.id, champion, champion),
-    )
-    await bot.db.commit()
+    async with bot.db.cursor() as cursor:
+        await cursor.execute(
+            'INSERT INTO users ("id", "champion") VALUES (?, ?) ON CONFLICT("id") DO UPDATE SET "champion"=?;',
+            (ctx.author.id, champion, champion),
+        )
+        await bot.db.commit()
+
     await ctx.send(f"Done. You are now {champion}.")
 
 
 @bot.event
 async def on_message(msg: discord.Message) -> None:
-    if msg.author.bot or msg.channel.id in config["ignore"]:
+    if msg.author.bot or msg.channel.id in config["ignore"] or bot.db is None:
         return
 
     if bot.user in msg.mentions or random.randint(1, 10) == 1:
@@ -92,25 +87,28 @@ async def on_message(msg: discord.Message) -> None:
         await webhook.send(
             quote, username=msg.author.display_name, avatar_url=quotes[champion]["icon"]
         )
-        print(f"**{msg.author} ({champion})**: {quote}")
 
     await bot.process_commands(msg)
 
 
-async def run() -> None:
-    bot.db = await aiosqlite.connect("bot.db")
-    bot.webhooks = {}
-    await bot.db.execute(
-        'CREATE TABLE IF NOT EXISTS users ("id" BIGINT PRIMARY KEY NOT NULL, "champion" STRING);'
-    )
-    await bot.db.commit()
-
-    try:
-        await bot.start(config["token"])
-    except KeyboardInterrupt:
-        pass
-    finally:
-        await bot.db.close()
+@bot.event
+async def on_ready():
+    if bot.db is None:
+        bot.db = await asqlite.connect("bot.db")
+        async with bot.db.cursor() as cursor:
+            await cursor.execute(
+                'CREATE TABLE IF NOT EXISTS users ("id" BIGINT PRIMARY KEY NOT NULL, "champion" STRING);'
+            )
+            await bot.db.commit()
+        logging.info("Database initialized")
 
 
-asyncio.run(run())
+bot.db = None
+bot.webhooks = {}
+
+try:
+    bot.run(config["token"])
+except KeyboardInterrupt:
+    pass
+finally:
+    bot.db.get_connection().close()
