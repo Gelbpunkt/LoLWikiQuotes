@@ -1,13 +1,15 @@
-import sys
-import re
 import argparse
 import json
-import urllib.request
+import re
+import sys
 import urllib.error
-from difflib import SequenceMatcher
-from contextlib import suppress
+import urllib.request
 from collections import OrderedDict
+from contextlib import suppress
+from difflib import SequenceMatcher
+
 from bs4 import BeautifulSoup
+
 from RiotAPIData import RiotAPIData
 
 
@@ -514,6 +516,7 @@ def main():
         main_multi(ip)
     elif not args.a:
         main_one(ip)  # Scrape one
+
 
 def check_for_files():
     files = ("RiotAPIData.py", "name_id_dict.json", "riot_api_key.json")

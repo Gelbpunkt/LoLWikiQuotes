@@ -5,3 +5,5 @@ __pycache__/
 # Other
 *.env
 riot_api_key.json
+bot.db
+config.json

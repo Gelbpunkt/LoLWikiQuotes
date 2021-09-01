@@ -1,4 +1,5 @@
 import json
+
 from riotwatcher import LolWatcher
 
 
@@ -10,31 +11,9 @@ class RiotAPIData:
         self.watcher = LolWatcher(self.key)
 
     def get_key(self):
-        try:
-            with open("riot_api_key.json", "r") as file:
-                dict_ = json.load(file)
-            riot_api_key = dict_["riot_api_key"]
-            if riot_api_key == "xxxxx-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx":
-                print(
-                    "Replace the placeholder key of x's with your own"
-                    " Riot API key in the 'riot_api_key.json' file."
-                )
-                return None
-            return riot_api_key
-        except (json.decoder.JSONDecodeError, FileNotFoundError) as e:
-            print(e)
-            print(
-                "The file, 'riot_api_key.json', was either missing or its"
-                " data structure was corrupted. Generating a new file..."
-            )
-            with open("riot_api_key.json", "w") as file:
-                dict_ = {"riot_api_key": "xxxxx-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"}
-                json.dump(dict_, file, indent=4)
-            print(
-                "Replace the placeholder key of x's with your own"
-                "Riot API key in the 'riot_api_key.json' file."
-            )
-            return None
+        with open("config.json", "r") as file:
+            dict_ = json.load(file)
+        return dict_["riot_api_key"]
 
     def check_versions(self):
         versions = {}
@@ -64,6 +43,7 @@ class RiotAPIData:
         return versions
 
     def download_champ_data(self):
+        # https://developer.riotgames.com/docs/lol#data-dragon_data-assets
         versions = self.watcher.data_dragon.versions_for_region(self.my_region)
         champions_version = versions["n"]["champion"]
         champions_data = self.watcher.data_dragon.champions(champions_version)
@@ -75,7 +55,9 @@ class RiotAPIData:
         for champion in champions_data["data"].values():
             result["data"][champion["key"]] = {
                 "id": int(champion["key"]),
+                "name_id": champion["id"],
                 "name": champion["name"],
+                "icon": f"https://ddragon.leagueoflegends.com/cdn/{champions_data['version']}/img/champion/{champion['id']}.png",
             }
 
         result["data"] = dict(sorted(result["data"].items(), key=lambda x: int(x[0])))
