@@ -24,12 +24,6 @@ def flatten(l: Iterable) -> Generator:
             yield el
 
 
-quotes = {
-    champ: list(
-        i[1:-1] for i in flatten(v.values() for v in content["quotes"].values())
-    )
-    for champ, content in quotes.items()
-}
 champs = list(quotes.keys())
 
 bot = commands.Bot(command_prefix="!")
@@ -80,9 +74,24 @@ async def on_message(msg: discord.Message) -> None:
         return
 
     if bot.user in msg.mentions or random.randint(1, 10) == 1:
+        webhook = bot.webhooks.get(msg.channel.id)
+        if webhook is None:
+            webhooks = await msg.channel.webhooks()
+            if not webhooks:
+                webhook = await msg.channel.create_webhook(name="Jazzy")
+            else:
+                webhook = discord.utils.find(
+                    lambda hook: hook.token is not None, webhooks
+                )
+                if webhook is None:
+                    webhook = await msg.channel.create_webhook(name="Jazzy")
+            bot.webhooks[msg.channel.id] = webhook
+
         champion = await get_champion(bot.db, msg.author.id)
-        quote = random.choice(quotes[champion])
-        await msg.channel.send(f"**{msg.author}**: {quote}")
+        quote = random.choice(quotes[champion]["quotes"])
+        await webhook.send(
+            quote, username=msg.author.display_name, avatar_url=quotes[champion]["icon"]
+        )
         print(f"**{msg.author} ({champion})**: {quote}")
 
     await bot.process_commands(msg)
@@ -90,6 +99,7 @@ async def on_message(msg: discord.Message) -> None:
 
 async def run() -> None:
     bot.db = await aiosqlite.connect("bot.db")
+    bot.webhooks = {}
     await bot.db.execute(
         'CREATE TABLE IF NOT EXISTS users ("id" BIGINT PRIMARY KEY NOT NULL, "champion" STRING);'
     )
