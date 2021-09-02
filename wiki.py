@@ -36,7 +36,7 @@ class Scraper:
         else:
             lines = text.splitlines()
             last_asterisk_count = 1
-            regex = r"(Wolf|Lamb|Kindred): ''\"(.*)(:?\")''"
+            regex = r"(Wolf|Lamb|Kindred): ''(?:\")?([^\"]+)?(?:\")?''"
             matches = []
 
             for line in lines:
@@ -52,11 +52,13 @@ class Scraper:
                 maybe_matches = re.findall(regex, line)
                 if maybe_matches:
                     match = maybe_matches[0]
+                    match_text = f"{match[0]}: {match[1]}"
+                    match_text = match_text.replace("'''", "**")
 
-                    if asterisk_count_in_this_line == last_asterisk_count+1:
-                        matches[-1] += f"\n{match[0]}: {match[1]}"
+                    if asterisk_count_in_this_line == last_asterisk_count + 1:
+                        matches[-1] += f"\n{match_text}"
                     else:
-                        matches.append(f"{match[0]}: {match[1]}")
+                        matches.append(match_text)
 
                     last_asterisk_count = asterisk_count_in_this_line
 
