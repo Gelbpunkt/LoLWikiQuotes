@@ -17,13 +17,13 @@ class Scraper:
 
     def get_all_quotes(self) -> list[str]:
         text = self.get_wiki_text()
-        regex = r"({{sm2\|[^|]+\|''\"(.*)\"'')|({{sm2\|[^|]+}} ''\"(.*)\"'')"
-        #regex = r"''\"(.*)\"''"
+        #regex = r"({{sm2\|[^|]+\|''\"(.*)\"'')|({{sm2\|[^|]+}} ''\"(.*)\"'')"
+        regex = r"''\"(.*)\"''"
         matches = []
 
         for match in re.finditer(regex, text, re.MULTILINE):
             for match in reversed(match.groups()):
-                if match is not None and ".ogg" not in match:
+                if match is not None and ".ogg" not in match and match != "GG!":
                     matches.append(match)
                     break
 
