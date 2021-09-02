@@ -47,6 +47,18 @@ async def whoami(ctx: commands.Context) -> None:
 
 
 @bot.command()
+async def whois(ctx: commands.Context, member: discord.Member) -> None:
+    """Tells you which champion another user will be quoted as."""
+    await ctx.send(await get_champion(bot.db, member.id))
+
+
+@bot.command()
+async def champions(ctx: commands.Context) -> None:
+    """Lists all available champions."""
+    await ctx.send(", ".join(champs))
+
+
+@bot.command()
 async def iam(ctx: commands.Context, *, champion: str) -> None:
     """Sets a champion that you will be quoted as."""
     if champion not in champs:
