@@ -24,6 +24,9 @@ class Scraper:
         for match in re.finditer(regex, text, re.MULTILINE):
             for match in reversed(match.groups()):
                 if match is not None and ".ogg" not in match and match != "GG!":
+                    # Fix the markdown
+                    match = match.replace("'''", "**")
+
                     matches.append(match)
                     break
 
