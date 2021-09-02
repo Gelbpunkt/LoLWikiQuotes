@@ -17,20 +17,51 @@ class Scraper:
 
     def get_all_quotes(self) -> list[str]:
         text = self.get_wiki_text()
-        #regex = r"({{sm2\|[^|]+\|''\"(.*)\"'')|({{sm2\|[^|]+}} ''\"(.*)\"'')"
-        regex = r"''\"(.*)\"''"
-        matches = []
+        # regex = r"({{sm2\|[^|]+\|''\"(.*)\"'')|({{sm2\|[^|]+}} ''\"(.*)\"'')"
 
-        for match in re.finditer(regex, text, re.MULTILINE):
-            for match in reversed(match.groups()):
-                if match is not None and ".ogg" not in match and match != "GG!":
-                    # Fix the markdown
-                    match = match.replace("'''", "**")
+        if self.champion != "Kindred":
+            regex = r"''\"(.*)\"''"
+            matches = []
 
-                    matches.append(match)
-                    break
+            for match in re.finditer(regex, text, re.MULTILINE):
+                for match in reversed(match.groups()):
+                    if match is not None and ".ogg" not in match and match != "GG!":
+                        # Fix the markdown
+                        match = match.replace("'''", "**")
 
-        return matches
+                        matches.append(match)
+                        break
+
+            return matches
+        else:
+            lines = text.splitlines()
+            last_asterisk_count = 1
+            regex = r"(Wolf|Lamb|Kindred): ''\"(.*)(:?\")''"
+            matches = []
+
+            for line in lines:
+                line = line.strip()
+
+                asterisk_count_in_this_line = 0
+                for letter in line:
+                    if letter == "*":
+                        asterisk_count_in_this_line += 1
+                    else:
+                        break
+
+                maybe_matches = re.findall(regex, line)
+                if maybe_matches:
+                    match = maybe_matches[0]
+
+                    if asterisk_count_in_this_line == last_asterisk_count+1:
+                        matches[-1] += f"\n{match[0]}: {match[1]}"
+                    else:
+                        matches.append(f"{match[0]}: {match[1]}")
+
+                    last_asterisk_count = asterisk_count_in_this_line
+
+            return matches
+
 
 if __name__ == "__main__":
     result = {}
