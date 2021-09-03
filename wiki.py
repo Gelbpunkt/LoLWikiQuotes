@@ -46,6 +46,8 @@ class Scraper:
             lambda match: match.group("display_name") or match.group("ability"),
             text,
         )
+        rp_regex = r"{{RP([^}]*)}}"
+        text = re.sub(rp_regex, "RP", text)
         # regex = r"({{sm2\|[^|]+\|''\"(.*)\"'')|({{sm2\|[^|]+}} ''\"(.*)\"'')"
 
         if self.champion != "Kindred":
