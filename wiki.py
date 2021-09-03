@@ -17,6 +17,8 @@ class Scraper:
 
     def get_all_quotes(self) -> list[str]:
         text = self.get_wiki_text()
+        small_bold_caps_regex = r"{{sbc\|([^}]+)}}"
+        text = re.sub(small_bold_caps_regex, lambda match: f"**{match.group(1).upper()}**", text, re.MULTILINE)
         # regex = r"({{sm2\|[^|]+\|''\"(.*)\"'')|({{sm2\|[^|]+}} ''\"(.*)\"'')"
 
         if self.champion != "Kindred":
