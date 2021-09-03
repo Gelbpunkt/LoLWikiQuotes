@@ -19,6 +19,8 @@ class Scraper:
         text = self.get_wiki_text()
         small_bold_caps_regex = r"{{sbc\|([^}]+)}}"
         text = re.sub(small_bold_caps_regex, lambda match: f"**{match.group(1).upper()}**", text, re.MULTILINE)
+        champion_inline_regex = r"{{ci\|(?P<champion>[^}|]+)(?:\|(?P<custom_name>[^}]+))?}}"
+        text = re.sub(champion_inline_regex, lambda match: match.group("custom_name") or match.group("champion"), text)
         # regex = r"({{sm2\|[^|]+\|''\"(.*)\"'')|({{sm2\|[^|]+}} ''\"(.*)\"'')"
 
         if self.champion != "Kindred":
