@@ -50,6 +50,12 @@ class Scraper:
         text = re.sub(rp_regex, "RP", text)
         summoner_spell_regex = r"{{si\|([^}]+)}}"
         text = re.sub(summoner_spell_regex, lambda match: match.group(1), text)
+        ccib_regex = r"{{[cC]cib?\|(?P<file>[^}|]+)\|(?P<link>[^}|]+)(?:\|(?P<display_name>[^}|]+))?}}"
+        text = re.sub(
+            ccib_regex,
+            lambda match: match.group("display_name") or match.group("link"),
+            text,
+        )
         # regex = r"({{sm2\|[^|]+\|''\"(.*)\"'')|({{sm2\|[^|]+}} ''\"(.*)\"'')"
 
         if self.champion != "Kindred":
