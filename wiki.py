@@ -59,11 +59,39 @@ class Scraper:
         as_regex = r"{{[Aa]s\|([^}|]+)}}"
         text = re.sub(as_regex, lambda match: match.group(1), text)
         sti_regex = r"{{sti\|(?P<attribute>[^}|]+)(?:\|(?P<display_name>[^}|]+))?}}"
-        text = re.sub(sti_regex, lambda match: match.group("display_name") or match.group("attribute"), text)
+        text = re.sub(
+            sti_regex,
+            lambda match: match.group("display_name") or match.group("attribute"),
+            text,
+        )
         bi_regex = r"{{bi\|(?P<buff>[^}|]+)(?:\|(?P<display_name>[^}|]+))?}}"
-        text = re.sub(bi_regex, lambda match: match.group("display_name") or match.group("buff"), text)
+        text = re.sub(
+            bi_regex,
+            lambda match: match.group("display_name") or match.group("buff"),
+            text,
+        )
         tt_regex = r"{{tt\|(?P<text>[^}|]+)\|(?P<hover>[^}|]+)}}"
         text = re.sub(tt_regex, lambda match: match.group("text"), text)
+        ui_regex = r"{{ui\|(?P<unit>[^}|]+)(?:\|(?P<display_name>[^}|]+))?}}"
+        text = re.sub(
+            ui_regex,
+            lambda match: match.group("display_name") or match.group("unit"),
+            text,
+        )
+        csl_regex = r"{{csl\|(?P<champ>[^}|]+)(?:\|(?P<skin>[^}|]+))?(?:\|(?P<display_name>[^}|]+))?}}"
+        text = re.sub(
+            csl_regex,
+            lambda match: match.group("display_name")
+            or match.group("skin")
+            or match.group("champ"),
+            text,
+        )
+        fi_regex = r"{{fi\|(?P<faction>[^}|]+)(?:\|(?P<display_name>[^}|]+))?}}"
+        text = re.sub(
+            fi_regex,
+            lambda match: match.group("display_name") or match.group("faction"),
+            text,
+        )
 
         # regex = r"({{sm2\|[^|]+\|''\"(.*)\"'')|({{sm2\|[^|]+}} ''\"(.*)\"'')"
 
