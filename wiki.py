@@ -56,6 +56,11 @@ class Scraper:
             lambda match: match.group("display_name") or match.group("link"),
             text,
         )
+        as_regex = r"{{[Aa]s\|([^}|]+)}}"
+        text = re.sub(as_regex, lambda match: match.group(1), text)
+        sti_regex = r"{{sti\|(?P<attribute>[^}|]+)(?:\|(?P<display_name>[^}|]+))?}}"
+        text = re.sub(sti_regex, lambda match: match.group("display_name") or match.group("attribute"), text)
+
         # regex = r"({{sm2\|[^|]+\|''\"(.*)\"'')|({{sm2\|[^|]+}} ''\"(.*)\"'')"
 
         if self.champion != "Kindred":
