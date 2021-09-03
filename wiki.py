@@ -18,9 +18,28 @@ class Scraper:
     def get_all_quotes(self) -> list[str]:
         text = self.get_wiki_text()
         small_bold_caps_regex = r"{{sbc\|([^}]+)}}"
-        text = re.sub(small_bold_caps_regex, lambda match: f"**{match.group(1).upper()}**", text, re.MULTILINE)
-        champion_inline_regex = r"{{ci\|(?P<champion>[^}|]+)(?:\|(?P<custom_name>[^}]+))?}}"
-        text = re.sub(champion_inline_regex, lambda match: match.group("custom_name") or match.group("champion"), text)
+        text = re.sub(
+            small_bold_caps_regex,
+            lambda match: f"**{match.group(1).upper()}**",
+            text,
+            re.MULTILINE,
+        )
+        champion_inline_regex = (
+            r"{{ci\|(?P<champion>[^}|]+)(?:\|(?P<custom_name>[^}]+))?}}"
+        )
+        text = re.sub(
+            champion_inline_regex,
+            lambda match: match.group("custom_name") or match.group("champion"),
+            text,
+        )
+        link_regex = r"\[\[(?!(File:))(?P<page>[^]|]+)(?:\|(?P<link_text>[^]]+))?]]"
+        text = re.sub(
+            link_regex,
+            lambda match: match.group("link_text") or match.group("page"),
+            text,
+        )
+        image_regex = r" ?\[\[File:[^[]+]] ?"
+        text = re.sub(image_regex, " ", text)
         # regex = r"({{sm2\|[^|]+\|''\"(.*)\"'')|({{sm2\|[^|]+}} ''\"(.*)\"'')"
 
         if self.champion != "Kindred":
