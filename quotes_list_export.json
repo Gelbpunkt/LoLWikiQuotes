@@ -1304,7 +1304,7 @@
             "You Demacians have lost your way.",
             "Are you a talking animal? Tiny mortal? Why are you so soft?!",
             "Sister. Here to break my heart anew?",
-            "Better a broken heart than a {{ai|Soul Shackles|Morgana|shackled soul}}.",
+            "Better a broken heart than a shackled soul.",
             "Still playing with your little human pets, sister?",
             "At least I haven't smited all my friends.",
             "Your sword is with me. Do you want it back?",
@@ -3228,7 +3228,7 @@
             "Sometimes fighting can teach you things, like how to forgive your brother.",
             "Ornn! My mom used to sing your song as the ashes died in the fire. It still makes me feel warm.",
             "Definitely not a princess.",
-            "Believe in yourself, Tryndamere. And you won't need to {{ai|Mocking Shout|Tryndamere|call people chickens}} behind their backs.",
+            "Believe in yourself, Tryndamere. And you won't need to call people chickens behind their backs.",
             "I wanna be a barbarian when I grow up!",
             "Volibear! Uh, sorry! I mean, The Volibear. Or uhm, Mr. The Volibear, Sir...",
             "Roaaaar! (Willump roars)",
@@ -3686,7 +3686,7 @@
             "Bang!",
             "Handsome Dude",
             "Who will fortune favor today?",
-            "Get those {{ai|Remove Scurvy|Gangplank|oranges}} ready, Gangplank!",
+            "Get those oranges ready, Gangplank!",
             "Don't get cocky. I'll be back!"
         ],
         "icon": "https://ddragon.leagueoflegends.com/cdn/11.16.1/img/champion/MissFortune.png"
@@ -4519,7 +4519,7 @@
             "I saw you in your cell, Sylas. Heard your cries. Felt your anguish.",
             "Darkness reveals our truth, Zed.",
             "Sister, here to break my heart anew?",
-            "Better a broken heart than a {{ai|Soul Shackles|Morgana|shackled soul}}.",
+            "Better a broken heart than a shackled soul.",
             "At least I haven't smited all my friends.",
             "Your sword is with me. Do you want it back?",
             "I need no blade.",
@@ -7812,7 +7812,7 @@
             "Labrys has made me unstoppable! Nothing will stand in my way.",
             "Another transformation!",
             "The Sheriff's in town.",
-            "I've got a {{ai|Yordle Snap Trap|Caitlyn|cupcake}} for you, little Yordle.",
+            "I've got a cupcake for you, little Yordle.",
             "Sharp shooting, everyone."
         ],
         "icon": "https://ddragon.leagueoflegends.com/cdn/11.16.1/img/champion/Caitlyn.png"
@@ -11305,7 +11305,7 @@
             "It claims you.",
             "Behold the horrors of the isles!",
             "Go, take what you will.",
-            "See the {{ai|Eulogy of the Isles|Yorick|Maiden}}? She comes for **you**.",
+            "See the Maiden? She comes for **you**.",
             "Submit. Surrender.",
             "Do not resist.",
             "All will join.",
@@ -11864,7 +11864,7 @@
             "I am reborn!",
             "My work is not complete.",
             "Your god will not abandon you!",
-            "Prepare to face {{ai|Demacian Justice|Garen}}!",
+            "Prepare to face Demacian Justice!",
             "Well fought!"
         ],
         "icon": "https://ddragon.leagueoflegends.com/cdn/11.16.1/img/champion/Garen.png"
@@ -23259,7 +23259,7 @@
             "We will not be impeded.",
             "We will not be at the mercy of those who hide behind magic.",
             "Foul sorcery shall not deter us.",
-            "In the end, it was not {{ai|Blade of the Ruined King|Viego|his blade}} that stole our lives.",
+            "In the end, it was not his blade that stole our lives.",
             "As once it symbolized hope, so now shall it incite despair!",
             "Once, he was a noble king, until grief overcame his reason.",
             "So shall others feel the bite of steel.",

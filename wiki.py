@@ -40,6 +40,12 @@ class Scraper:
         )
         image_regex = r" ?\[\[File:[^[]+]] ?"
         text = re.sub(image_regex, " ", text)
+        ability_regex = r"{{ai\|(?P<ability>[^}|]+)(?:\|(?P<champion>[^}|]+))?(?:\|(?P<display_name>[^}]+))?}}"
+        text = re.sub(
+            ability_regex,
+            lambda match: match.group("display_name") or match.group("ability"),
+            text,
+        )
         # regex = r"({{sm2\|[^|]+\|''\"(.*)\"'')|({{sm2\|[^|]+}} ''\"(.*)\"'')"
 
         if self.champion != "Kindred":
