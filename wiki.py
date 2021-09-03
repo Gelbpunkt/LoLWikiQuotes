@@ -60,6 +60,10 @@ class Scraper:
         text = re.sub(as_regex, lambda match: match.group(1), text)
         sti_regex = r"{{sti\|(?P<attribute>[^}|]+)(?:\|(?P<display_name>[^}|]+))?}}"
         text = re.sub(sti_regex, lambda match: match.group("display_name") or match.group("attribute"), text)
+        bi_regex = r"{{bi\|(?P<buff>[^}|]+)(?:\|(?P<display_name>[^}|]+))?}}"
+        text = re.sub(bi_regex, lambda match: match.group("display_name") or match.group("buff"), text)
+        tt_regex = r"{{tt\|(?P<text>[^}|]+)\|(?P<hover>[^}|]+)}}"
+        text = re.sub(tt_regex, lambda match: match.group("text"), text)
 
         # regex = r"({{sm2\|[^|]+\|''\"(.*)\"'')|({{sm2\|[^|]+}} ''\"(.*)\"'')"
 
